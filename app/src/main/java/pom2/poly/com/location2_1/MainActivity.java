@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -15,19 +16,23 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
-    private TextView tv_latitude;
-    private TextView tv_longitude;
+
     private GoogleApiClient mGoogleApiClient;
 
     private LocationRequest mLocationRequest;
+    private Button removeButton;
+    private Button requestButton;
+    private TextView detected_activity_textView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tv_latitude = (TextView) findViewById(R.id.tv_latitude);
-        tv_longitude = (TextView) findViewById(R.id.tv_longitude);
+        removeButton = (Button) findViewById(R.id.remove_activity_update_button);
+        requestButton = (Button) findViewById(R.id.request_activity_update_button);
+        detected_activity_textView = (TextView) findViewById(R.id.detected_activity_textView);
+
         mGoogleApiClient = buildGoogleAPIClient();
     }
 
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(1000);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,mLocationRequest,this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
 
     }
@@ -67,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onLocationChanged(Location location) {
-        tv_latitude.setText(location.getLatitude() + "");
-        tv_longitude.setText(location.getLongitude() + "");
 
     }
 
